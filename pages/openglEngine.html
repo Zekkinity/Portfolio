@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZkEngine - Vulkan Renderer | Kevin Rivera</title>
+
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@0,400;0,500;0,600;0,700;1,400&display=swap"
+        rel="stylesheet">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'Fira Code', 'Consolas', 'monospace'],
+                    },
+                    colors: {
+                        bgMain: '#ffffff',
+                        textMain: '#171717',    // Near black
+                        textMuted: '#404040',   // Dark gray
+                        textLight: '#737373',   // Light gray
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #ffffff;
+            color: #404040;
+        }
+    </style>
+</head>
+
+<body class="antialiased font-sans min-h-screen selection:bg-gray-200 selection:text-black">
+
+    <!-- Container -->
+    <div class="max-w-6xl mx-auto px-6 py-10 md:py-16">
+
+        <!-- Top Header Bar -->
+        <header
+            class="border-b border-gray-300 pb-3 mb-12 flex justify-between items-center text-[11px] font-bold tracking-wider text-textLight uppercase">
+            <a href="../index.html" class="hover:text-textMain transition-colors flex items-center gap-1">
+                &larr; ALL ARTICLES
+            </a>
+            <span>&bull; OCT 28, 2026</span>
+        </header>
+
+        <!-- Main Content Area: TOC + Article Grid -->
+        <div class="flex flex-col md:flex-row gap-12 lg:gap-16 items-start">
+
+            <!-- Sticky Left Sidebar: Table of Contents -->
+            <nav
+                class="w-full md:w-52 shrink-0 md:sticky md:top-10 self-start text-[13px] text-textMuted border-b md:border-b-0 pb-6 md:pb-0 border-gray-200">
+                <h2 class="text-[12px] font-semibold text-textMain mb-3">Table of contents</h2>
+                <ul class="space-y-2 leading-snug">
+                    <li>
+                        <a href="#overview" class="hover:text-textMain transition-colors block">Overview</a>
+                    </li>
+                    <li>
+                        <a href="#features"
+                            class="hover:text-textMain transition-colors block font-medium text-textMain">Engine
+                            Features</a>
+                        <!-- Nested Subsections -->
+                        <!-- <ul class="mt-1.5 space-y-1.5 pl-3 border-l border-gray-200 text-[12px] text-textLight"> -->
+                        <!--     <li><a href="#execution-modes" class="hover:text-textMain transition-colors block">Execution -->
+                        <!--             Modes</a></li> -->
+                        <!--     <li><a href="#pbr-renderer" class="hover:text-textMain transition-colors block">PBR -->
+                        <!--             Renderer</a></li> -->
+                        <!--     <li><a href="#lighting" class="hover:text-textMain transition-colors block">Lighting & -->
+                        <!--             Shadows</a></li> -->
+                        <!--     <li><a href="#post-processing" class="hover:text-textMain transition-colors block">Post -->
+                        <!--             Processing</a></li> -->
+                        <!--     <li><a href="#world" class="hover:text-textMain transition-colors block">World</a></li> -->
+                        <!-- </ul> -->
+                    </li>
+                    <li>
+                        <a href="#architecture" class="hover:text-textMain transition-colors block">Renderer
+                            Architecture</a>
+                    </li>
+                    <!-- <li> -->
+                    <!--     <a href="#code-example" class="hover:text-textMain transition-colors block">Code Example</a> -->
+                    <!-- </li> -->
+                </ul>
+            </nav>
+
+            <!-- Right Column: Article Content -->
+            <main class="flex-1 max-w-2xl min-w-0 space-y-10">
+
+                <!-- Article Title & Metadata -->
+                <header class="text-center md:text-left space-y-4">
+                    <h1 class="text-3xl md:text-4xl font-bold text-textMain leading-tight">
+                        ZkEngine - Vulkan Renderer
+                    </h1>
+                    <div class="flex flex-wrap gap-2 text-[12px] font-mono text-textLight pt-1">
+                        <span class="bg-gray-100 px-2.5 py-0.5 rounded">C++</span>
+                        <span class="bg-gray-100 px-2.5 py-0.5 rounded">Vulkan 1.3</span>
+                        <!-- <span class="bg-gray-100 px-2.5 py-0.5 rounded">entt</span> -->
+                        <!-- <span class="bg-gray-100 px-2.5 py-0.5 rounded">Jolt Physics</span> -->
+                    </div>
+                </header>
+
+                <!-- Section: Overview -->
+                <section id="overview" class="scroll-mt-10 space-y-3">
+                    <p class="text-[15px] leading-relaxed text-textMuted">
+                    <p class="text-[15px] leading-relaxed">
+                        <i> ZkEngine is a game engine that i wrote to learn <b>Vulkan 1.3</b> and fix mistakes that my
+                            previous engine had.This engine makes use of some modern rendering techniques like
+                            <b>Dynamic Rendering</b>, <b>Bindless with Descriptor Indexing</b> and <b>Buffer Device
+                                Address</b> while also using a more modern shading language <b>Slang</b>. The
+                            architecture is being done with the possibility of moving to <b>GPU Driven Rendering</b> and
+                            <b>Forward+ Rendering</b> in the future.</i>
+                    </p>
+                </section>
+
+                <!-- Interactive Image Slider -->
+                <div class="relative max-w-2xl mx-auto my-8 group">
+
+                    <!-- Slider Frame -->
+                    <div
+                        class="overflow-hidden rounded-lg border border-gray-200 shadow-sm relative aspect-[16/9] bg-gray-900">
+
+                        <!-- Slide 1: Bistro Scene -->
+                        <div class="carousel-slide block h-full">
+                            <img src="../images/bistro.jpg" alt="Amazon Bistro Scene"
+                                class="w-full h-full object-cover">
+                            <div
+                                class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent p-4 text-white text-[12px] italic text-center">
+                                Amazon Bistro
+                            </div>
+                        </div>
+
+                        <!-- Slide 2: Sponza Scene -->
+                        <div class="carousel-slide hidden h-full">
+                            <img src="../images/sponza.jpg" alt="Crytek Sponza Scene"
+                                class="w-full h-full object-cover">
+                            <div
+                                class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent p-4 text-white text-[12px] italic text-center">
+                                Crytek Sponza
+                            </div>
+                        </div>
+
+                        <!-- Slide 3: Editor UI -->
+                        <div class="carousel-slide hidden h-full">
+                            <img src="../images/editor.jpg" alt="ZkEngine Editor" class="w-full h-full object-cover">
+                            <div
+                                class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent p-4 text-white text-[12px] italic text-center">
+                                ZkEngine built-in editor interface compiled with the ZK_EDITOR flag.
+                            </div>
+                        </div>
+
+                        <!-- Previous Button (Left Arrow) -->
+                        <button id="prevBtn"
+                            class="absolute left-3 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-textMain p-2 rounded-full shadow-md backdrop-blur-sm transition-all opacity-80 hover:opacity-100"
+                            aria-label="Previous slide">
+                            <svg class="w-4 h-4 fill-none stroke-current stroke-[2.5]" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+                            </svg>
+                        </button>
+
+                        <!-- Next Button (Right Arrow) -->
+                        <button id="nextBtn"
+                            class="absolute right-3 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-textMain p-2 rounded-full shadow-md backdrop-blur-sm transition-all opacity-80 hover:opacity-100"
+                            aria-label="Next slide">
+                            <svg class="w-4 h-4 fill-none stroke-current stroke-[2.5]" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </button>
+                    </div>
+
+                    <!-- Slide Navigation Dots -->
+                    <div class="flex justify-center items-center gap-2 mt-3">
+                        <button class="dot-btn w-2 h-2 rounded-full bg-textMain transition-all"
+                            onclick="goToSlide(0)"></button>
+                        <button class="dot-btn w-2 h-2 rounded-full bg-gray-300 transition-all hover:bg-gray-400"
+                            onclick="goToSlide(1)"></button>
+                        <button class="dot-btn w-2 h-2 rounded-full bg-gray-300 transition-all hover:bg-gray-400"
+                            onclick="goToSlide(2)"></button>
+                    </div>
+
+                </div>
+
+                <hr class="border-gray-100">
+
+                <!-- Engine Features Section -->
+                <section class="space-y-4" id="features">
+                    <h2 class="text-lg font-semibold text-textMain pt-2">Engine Features</h2>
+                    <p class="text-[14px] text-textMuted leading-relaxed">
+                        The engine currently supports the following capabilities across pipeline initialization,
+                        rendering, lighting, and core architecture:
+                    </p>
+
+                    <!-- Launch Modes -->
+                    <div id="execution-modes" class="scroll-mt-10 space-y-1 pl-2">
+                        <h3 class="font-medium text-textMain text-[14px] mb-1">&bull; Editor</h3>
+                        <ul class="text-[14px] list-disc list-inside pl-4 text-textMuted space-y-1">
+                            <li>There is a built-in editor in the engine that you can use by compiling the engine with
+                                <code
+                                    class="font-mono text-xs bg-gray-100 px-1 py-0.5 rounded text-textMain">ZK_EDITOR</code>
+                                flag defined
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- PBR Renderer -->
+                    <div id="pbr-renderer">
+                        <h3 class="font-medium text-textMain text-[14px] mb-1">&bull; PBR Renderer</h3>
+                        <ul class="text-[14px] list-disc list-inside pl-4 text-textMuted space-y-1">
+                            <li>Bindless textures with descriptor indexing</li>
+                            <li>Single big vertex buffer and index buffer for all geometry</li>
+                            <li>Architecture is being made with GPU-driven rendering in mind for future expansion
+                            </li>
+                            <li>Currently its a simple Forward renderer but will be improved to a <b>Forward+
+                                    Renderer</b> with compute shaders in the future.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Lighting -->
+                    <div id="lighting" class="scroll-mt-10 space-y-1 pl-2">
+                        <h3 class="font-medium text-textMain text-[14px] mb-1">&bull; Lighting</h3>
+                        <ul class="text-[14px] list-disc list-inside pl-4 text-textMuted space-y-1">
+                            <li>Point lights</li>
+                            <li>Directional lights</li>
+                            <li>Spot lights</li>
+                            <li>Skylight (Image-Based Lighting / IBL)</li>
+                        </ul>
+                    </div>
+
+                    <!-- Shadows -->
+                    <div>
+                        <h3 class="font-medium text-textMain text-[14px] mb-1">&bull; Shadows</h3>
+                        <ul class="text-[14px] list-disc list-inside pl-4 text-textMuted space-y-1">
+                            <li>Cascaded shadow mapping for directional lights</li>
+                        </ul>
+                    </div>
+
+                    <!-- Post Processing -->
+                    <div id="post-processing" class="scroll-mt-10 space-y-1 pl-2">
+                        <h3 class="font-medium text-textMain text-[14px] mb-1">&bull; Post-Processing</h3>
+                        <ul class="text-[14px] list-disc list-inside pl-4 text-textMuted space-y-1">
+                            <li>Exposure</li>
+                            <li>Saturation</li>
+                            <li>Contrast</li>
+                            <li>Brightness</li>
+                            <li>Tonemappers (ACES, Filmic, Uncharted2)</li>
+                            <li>Gamma correction</li>
+                        </ul>
+                    </div>
+
+                    <!-- World Systems -->
+                    <div id="world" class="scroll-mt-10 space-y-1 pl-2">
+                        <h3 class="font-medium text-textMain text-[14px] mb-1">&bull; World & Systems</h3>
+                        <ul class="text-[14px] list-disc list-inside pl-4 text-textMuted space-y-1">
+                            <li>ECS via <code
+                                    class="font-mono text-xs bg-gray-100 px-1 py-0.5 rounded text-textMain">entt</code>
+                            </li>
+                            <li>Physics via <code
+                                    class="font-mono text-xs bg-gray-100 px-1 py-0.5 rounded text-textMain">Jolt
+                                    Physics</code></li>
+                        </ul>
+                    </div>
+
+                    <div class="space-y-4 text-[14px] leading-relaxed">
+                        <div id="execution-modes" class="scroll-mt-10 space-y-1 pl-2">
+                            <h3 class="font-medium text-textMain text-[14px] mb-1">&bull; Networking</h3>
+                            <ul class="list-disc list-inside pl-4 text-textMuted space-y-1">
+                                <li>Right now the engine is capable of launching as client or server.</li>
+                                <li>There is a Chat avaiable to enable clients to communicate.</li>
+                                <li>Future plans include actual players moving in the world.</li>
+                            </ul>
+                        </div>
+
+
+                    </div>
+                </section>
+
+                <section class="space-y-5" id="architecture">
+                    <h2 class="text-lg font-semibold text-textMain pt-2">Renderer Architecture</h2>
+
+                    <!-- Pipeline Description -->
+                    <div class="space-y-3 text-[14px] text-textMuted leading-relaxed">
+                        <p>
+                            The renderer uploads the entire world state to the GPU via <b>Buffer Device Address</b>
+                            (BDA), pushing a single address via push constants that grants shaders direct access to all
+                            scene data.
+                        </p>
+                        <p>
+                            First, ECS data is extracted from the main world into a <b>RenderWorld</b> structure—a pure
+                            CPU-side representation of the rendering state. Using the <code
+                                class="font-mono text-xs bg-gray-100 px-1 py-0.5 rounded text-textMain">RenderWorld</code>,
+                            the engine generates shadow cascades, syncs GPU buffers, fetches current environment
+                            parameters, and builds the final draw list executed across all render passes.
+                        </p>
+                    </div>
+
+                    <!-- Render Passes List -->
+                    <div class="space-y-3 pt-2">
+                        <h3 class="text-[14px] font-medium text-textMain">The renderer currently performs the following
+                            pipeline passes:</h3>
+
+                        <ul class="space-y-3 text-[14px] text-textMuted pl-2">
+
+                            <!-- Shadow Pass -->
+                            <li id="pass-shadow" class="scroll-mt-10">
+                                <span class="font-medium text-textMain block">&bull; Shadow Pass</span>
+                                <p class="text-[13px] text-textLight pl-4 mt-0.5">Generates cascaded shadow maps for
+                                    directional lights with Percentage Closer Filtering (PCF).</p>
+                            </li>
+
+                            <!-- Depth Pre-Pass -->
+                            <li id="pass-depth" class="scroll-mt-10">
+                                <span class="font-medium text-textMain block">&bull; Depth Pre-Pass</span>
+                                <p class="text-[13px] text-textLight pl-4 mt-0.5">Populates the depth buffer early to
+                                    reduce overdraw during main shading passes.</p>
+                            </li>
+
+                            <!-- Forward Opaque Pass -->
+                            <li id="pass-opaque" class="scroll-mt-10">
+                                <span class="font-medium text-textMain block">&bull; Forward Opaque Pass</span>
+                                <p class="text-[13px] text-textLight pl-4 mt-0.5">Renders PBR geometry utilizing
+                                    bindless descriptor indexing and unified vertex/index buffers.</p>
+                            </li>
+
+                            <!-- Skybox Pass -->
+                            <li id="pass-skybox" class="scroll-mt-10">
+                                <span class="font-medium text-textMain block">&bull; Skybox Pass</span>
+                                <p class="text-[13px] text-textLight pl-4 mt-0.5">Samples HDRI environment cubemaps for
+                                    background skylight rendering.</p>
+                            </li>
+
+                            <!-- Forward Transparent Pass -->
+                            <li id="pass-transparent" class="scroll-mt-10">
+                                <span class="font-medium text-textMain block">&bull; Forward Transparent Pass</span>
+                                <p class="text-[13px] text-textLight pl-4 mt-0.5">Handles blended geometry rendering.
+                                </p>
+                            </li>
+
+                            <!-- Post-Processing Pass -->
+                            <li id="pass-post-processing" class="scroll-mt-10">
+                                <span class="font-medium text-textMain block">&bull; Post-Processing Pass</span>
+                                <p class="text-[13px] text-textLight pl-4 mt-0.5">Applies multiple post-processing
+                                    effects and configurable
+                                    Tonemappers (ACES, Filmic, Uncharted 2).</p>
+                            </li>
+
+                        </ul>
+                    </div>
+                </section>
+
+
+                <!-- Footer -->
+                <footer class="pt-12 mt-12 border-t border-gray-100 flex justify-between text-[13px] text-textLight">
+                    <a href="../index.html" class="hover:text-textMain transition-colors">&larr; Back to all
+                        articles</a>
+                    <!-- <a href="https://github.com/Zekkinity/" target="_blank" rel="noopener noreferrer" -->
+                    <!--     class="hover:text-textMain transition-colors">GitHub &rarr;</a> -->
+                </footer>
+                <!-- <footer -->
+                <!--     class="pt-12 mt-12 border-t border-gray-100 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 text-[13px] text-textLight"> -->
+                <!--     <a href="index.html" class="hover:text-textMain transition-colors">&larr; Back to all articles</a> -->
+                <!---->
+                <!--     <div class="text-right"> -->
+                <!--         <span class="block sm:inline text-textMuted italic">Repository is private —</span> -->
+                <!--         <a href="mailto:your.email@example.com?subject=Code%20Access%20Request%20-%20ZkEngine" -->
+                <!--             class="underline text-textMain hover:opacity-75 transition-opacity font-medium"> -->
+                <!--             Request access for technical review &rarr; -->
+                <!--         </a> -->
+                <!--     </div> -->
+                <!-- </footer> -->
+
+            </main>
+
+        </div>
+
+    </div>
+
+    <!-- Carousel Navigation Script -->
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.carousel-slide');
+        const dots = document.querySelectorAll('.dot-btn');
+
+        function showSlide(index) {
+            if (index >= slides.length) currentSlide = 0;
+            else if (index < 0) currentSlide = slides.length - 1;
+            else currentSlide = index;
+
+            // Toggle Visibility
+            slides.forEach((slide, i) => {
+                if (i === currentSlide) {
+                    slide.classList.remove('hidden');
+                    slide.classList.add('block');
+                } else {
+                    slide.classList.remove('block');
+                    slide.classList.add('hidden');
+                }
+            });
+
+            // Update Dots
+            dots.forEach((dot, i) => {
+                if (i === currentSlide) {
+                    dot.classList.remove('bg-gray-300');
+                    dot.classList.add('bg-textMain');
+                } else {
+                    dot.classList.remove('bg-textMain');
+                    dot.classList.add('bg-gray-300');
+                }
+            });
+        }
+
+        document.getElementById('prevBtn').addEventListener('click', () => showSlide(currentSlide - 1));
+        document.getElementById('nextBtn').addEventListener('click', () => showSlide(currentSlide + 1));
+
+        function goToSlide(index) {
+            showSlide(index);
+        }
+    </script>
+
+</body>
+
+</html>

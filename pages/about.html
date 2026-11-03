@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About | Kevin Rivera</title>
+
+    <!-- Google Fonts: Inter for a clean, academic sans-serif look -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Custom Tailwind Configuration for minimalist aesthetic -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        bgMain: '#ffffff',
+                        textMain: '#171717',    // Near black for headings
+                        textMuted: '#404040',   // Dark gray for body text
+                        textLight: '#737373',   // Light gray for meta info
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #ffffff;
+            color: #404040;
+        }
+
+        /* Subtle link underline animation for content area */
+        .content-link {
+            text-decoration-color: transparent;
+            transition: text-decoration-color 0.2s ease-in-out;
+            text-underline-offset: 4px;
+        }
+
+        .content-link:hover {
+            text-decoration: underline;
+            text-decoration-color: #171717;
+        }
+    </style>
+</head>
+
+<body class="antialiased font-sans min-h-screen selection:bg-gray-200 selection:text-black">
+
+    <div class="max-w-5xl mx-auto px-6 py-12 md:py-24 flex flex-col md:flex-row gap-12 md:gap-24">
+
+        <!-- Left Column: Sticky Sidebar -->
+        <aside class="md:w-56 shrink-0">
+            <div class="md:sticky md:top-24">
+                <!-- Profile Image -->
+                <!-- <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200&auto=format&fit=crop" alt="Profile" class="w-16 h-16 rounded-full mb-5 object-cover grayscale"> -->
+
+                <!-- Name & Title -->
+                <h1 class="font-semibold text-textMain text-base mb-2">Kevin Rivera</h1>
+
+                <!-- Short Bio -->
+                <p class="text-[13px] text-textMuted mb-4 leading-relaxed">
+                    Computer Science student at Universidad de Sonora.<br>
+                    Interested in Game Engines and Computer Graphics. I like C++ and Rust.
+                </p>
+
+                <!-- Social Links (Icons) -->
+                <div class="flex items-center gap-4 text-textLight mb-10">
+                    <!-- GitHub Icon -->
+                    <a href="https://github.com/Zekkinity/" target="_blank" rel="noopener noreferrer"
+                        class="hover:text-textMain transition-colors" aria-label="GitHub">
+                        <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
+                        </svg>
+                    </a>
+
+                    <!-- LinkedIn Icon -->
+                    <a href="https://www.linkedin.com/in/kevin-rivera-78ab14277/" target="_blank"
+                        rel="noopener noreferrer" class="hover:text-textMain transition-colors" aria-label="LinkedIn">
+                        <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+                            <path
+                                d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.25V10.9H6.46M7.86 6.7a1.63 1.63 0 1 0 0 3.26 1.63 1.63 0 0 0 0-3.26z" />
+                        </svg>
+                    </a>
+
+                    <!-- gmail -->
+                    <a href="mailto:zekkinity@gmail.com" target="_blank" rel="noopener noreferrer"
+                        class="hover:text-textMain transition-colors" aria-label="Gmail">
+                        <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+                            <path
+                                d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
+                        </svg>
+                    </a>
+                </div>
+
+                <!-- Navigation Menu -->
+                <nav class="flex flex-col space-y-3 text-[14px] font-medium text-textMain">
+                    <a href="index.html" class="hover:opacity-60 transition-opacity">Projects</a>
+                    <a href="about.html" class="hover:opacity-60 transition-opacity">About</a>
+                </nav>
+            </div>
+        </aside>
+
+        <!-- Right Column: Main Content Area -->
+        <main class="flex-1 space-y-16">
+            This page will be me yapping about myself, my projects and my hobbies.
+
+
+            Ive always been interested in how games and computer graphics work all my life
+
+            I started programming around 2020, learning C and C++ while i was in high school
+
+            <!-- Article 1 -->
+            <article class="group">
+                <p class="text-[11px] font-bold text-textLight uppercase tracking-wider mb-2">&bull; Oct 28, 2026</p>
+                <h2 class="text-[22px] font-semibold text-textMain mb-3 leading-snug">
+                    Temporary Title
+                </h2>
+                <p class="text-[15px] leading-relaxed">
+                    I am currently working on my Vulkan 1.3 game engine called ZkEngine.
+                </p>
+
+                <p class="text-[15px] leading-relaxed">
+                    I currently use Neovim, love vim-keys.
+                    Mainly develop on Linux in Hyprland, a tiling window manager
+                </p>
+
+                <p class="text-[15px] leading-relaxed">
+                    Future plans involve learning Rust and writing a raymarcher in it with SDFs and stuff like that
+                    based on Inigo Quilez's work since ive seen some engines based on them like
+                    <a href="https://youtu.be/il-TXbn5iMA?si=Mr3WUgPCkpvb6GGS"
+                        class="hover:opacity-60 transition-opacity">this one</a> made by Mike Turitzin.
+
+                </p>
+
+                <p class="text-[15px] leading-relaxed">
+                    I would love to make a pathtracer also, and try out some hardware acceleration for it.
+                </p>
+
+            </article>
+
+
+            <!-- Footer -->
+            <!-- <footer class="pt-12 mt-12 border-t border-gray-100 flex justify-center md:justify-start"> -->
+            <!--     <p class="text-[12px] text-textLight"> -->
+            <!--         &copy; 2026 All rights reserved. -->
+            <!--     </p> -->
+            <!-- </footer> -->
+
+        </main>
+
+    </div>
+
+</body>
+
+</html>

@@ -159,6 +159,17 @@
                             </div>
                         </div>
 
+                        <!-- Slide 4: Physics -->
+                        <div class="carousel-slide hidden h-full">
+                            <video autoplay loop muted playsinline class="w-full h-full object-cover">
+                                <source src="../images/physics.mp4" type="video/mp4">
+                            </video>
+                            <div
+                                class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent p-4 text-white text-[12px] italic text-center">
+                                Real-time physics simulation powered by Jolt Physics.
+                            </div>
+                        </div>
+
                         <!-- Previous Button (Left Arrow) -->
                         <button id="prevBtn"
                             class="absolute left-3 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-textMain p-2 rounded-full shadow-md backdrop-blur-sm transition-all opacity-80 hover:opacity-100"
@@ -186,6 +197,8 @@
                             onclick="goToSlide(1)"></button>
                         <button class="dot-btn w-2 h-2 rounded-full bg-gray-300 transition-all hover:bg-gray-400"
                             onclick="goToSlide(2)"></button>
+                        <button class="dot-btn w-2 h-2 rounded-full bg-gray-300 transition-all hover:bg-gray-400"
+                            onclick="goToSlide(3)"></button>
                     </div>
 
                 </div>
@@ -280,8 +293,12 @@
                             </ul>
                         </div>
 
+                        <div class="space-y-4 text-[14px] leading-relaxed">
+                            <div id="execution-modes" class="scroll-mt-10 space-y-1 pl-2">
+                                <h3 class="font-medium text-textMain text-[14px] mb-1">&bull; Controller Support</h3>
+                            </div>
 
-                    </div>
+                        </div>
                 </section>
 
                 <section class="space-y-5" id="architecture">
@@ -295,10 +312,10 @@
                             scene data.
                         </p>
                         <p>
-                            First, ECS data is extracted from the main world into a <b>RenderWorld</b> structure—a pure
-                            CPU-side representation of the rendering state. Using the <code
+                            First, ECS data is extracted from the main world into a <b>RenderWorld</b> structure, a pure
+                            CPU-side representation of the world state. Using the <code
                                 class="font-mono text-xs bg-gray-100 px-1 py-0.5 rounded text-textMain">RenderWorld</code>,
-                            the engine generates shadow cascades, syncs GPU buffers, fetches current environment
+                            the engine generates shadow matrices, syncs GPU buffers, fetches current environment
                             parameters, and builds the final draw list executed across all render passes.
                         </p>
                     </div>
